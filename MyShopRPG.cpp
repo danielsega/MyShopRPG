@@ -21,6 +21,50 @@ bool MyShopRPG::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	initTouch();
+	initTiled();
+
+	this->scheduleUpdate();
+	return true;
+}
+
+bool MyShopRPG::onTouchBegan(cocos2d::Touch* _touch, cocos2d::Event * _event)
+{
+	return true;
+}
+
+void MyShopRPG::onTouchEnded(cocos2d::Touch* _touch, cocos2d::Event* _event)
+{
+}
+
+void MyShopRPG::onTouchMoved(cocos2d::Touch* _touch, cocos2d::Event * _event)
+{
+}
+
+void MyShopRPG::onTouchCancelled(cocos2d::Touch* _touch, cocos2d::Event* _event)
+{
+}
+
+void MyShopRPG::update(float dt)
+{
+	//CCLOG("Delta time: %f", dt);
+}
+
+void MyShopRPG::initTouch()
+{
+	auto touch_listener = EventListenerTouchOneByOne::create();
+	touch_listener->setSwallowTouches(true);
+
+	touch_listener->onTouchBegan = CC_CALLBACK_2(MyShopRPG::onTouchBegan, this);
+	touch_listener->onTouchEnded = CC_CALLBACK_2(MyShopRPG::onTouchEnded, this);
+	touch_listener->onTouchMoved = CC_CALLBACK_2(MyShopRPG::onTouchMoved, this);
+	touch_listener->onTouchCancelled = CC_CALLBACK_2(MyShopRPG::onTouchCancelled, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touch_listener, this);
+}
+
+void MyShopRPG::initTiled()
+{
 	CCTMXTiledMap* tiled_map = CCTMXTiledMap::create("Map/MyShopSpace.tmx");
 	CCTMXLayer* ground = tiled_map->layerNamed("Ground");
 	CCTMXLayer* floor = tiled_map->layerNamed("Floor");
@@ -37,12 +81,4 @@ bool MyShopRPG::init()
 	tiled_map->setPositionY(tiled_map->getPositionY() - (tiled_map->getBoundingBox().getMinY() + tiled_map->getTileSize().height));
 
 	this->addChild(tiled_map, 0);
-
-	this->scheduleUpdate();
-	return true;
-}
-
-void MyShopRPG::update(float dt)
-{
-	//CCLOG("Delta time: %f", dt);
 }
