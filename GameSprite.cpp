@@ -2,7 +2,11 @@
 
 GameSprite::GameSprite()
 {
+	this->setPosition(ccp(0, 0));
+	this->setRotation(0);
+
 	next_position = ccp(0, 0);
+
 	this->scheduleUpdate();
 }
 

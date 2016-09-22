@@ -2,6 +2,7 @@
 #define __MY_SHOP_RPG_H__
 
 #include "cocos2d.h"
+#include "GameSprite.h"
 
 class MyShopRPG : public cocos2d::Layer
 {
@@ -9,6 +10,8 @@ private:
 	void update(float dt);
 	void initTouch();
 	void initTiled();
+
+	void tempSetupSprite();
 public:
 	static cocos2d::Scene* createScene();
 
@@ -20,6 +23,8 @@ public:
 	virtual void onTouchCancelled(cocos2d::Touch* _touch, cocos2d::Event* _event);
 
 	CREATE_FUNC(MyShopRPG);
+private:
+	GameSprite* sprite;
 };
 
 #endif // __MY_SHOP_RPG_H__

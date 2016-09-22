@@ -1,4 +1,5 @@
 #include "MyShopRPG.h"
+#include "GlobalVariables.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -23,13 +24,15 @@ bool MyShopRPG::init()
 
 	initTouch();
 	initTiled();
+	tempSetupSprite();
 
 	this->scheduleUpdate();
 	return true;
 }
 
-bool MyShopRPG::onTouchBegan(cocos2d::Touch* _touch, cocos2d::Event * _event)
+bool MyShopRPG::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event * _event)
 {
+	sprite->setPosition(touch->getLocation());
 	return true;
 }
 
@@ -48,6 +51,9 @@ void MyShopRPG::onTouchCancelled(cocos2d::Touch* _touch, cocos2d::Event* _event)
 void MyShopRPG::update(float dt)
 {
 	//CCLOG("Delta time: %f", dt);
+	auto cam = Camera::getDefaultCamera();
+	cam->setPosition(sprite->getPosition());
+	
 }
 
 void MyShopRPG::initTouch()
@@ -70,7 +76,7 @@ void MyShopRPG::initTiled()
 	CCTMXLayer* floor = tiled_map->layerNamed("Floor");
 	CCTMXLayer* lower_wall = tiled_map->layerNamed("LowerWall");
 	CCTMXLayer* higher_wall = tiled_map->layerNamed("HigherWall");
-	CCTMXLayer* items = tiled_map->layerNamed("Items");
+	CCTMXLayer* game_items = tiled_map->layerNamed("GameItems");
 
 	floor->setPositionX(floor->getPositionX() - 3);
 	floor->setPositionY(floor->getPositionY() - 29);
@@ -81,4 +87,11 @@ void MyShopRPG::initTiled()
 	tiled_map->setPositionY(tiled_map->getPositionY() - (tiled_map->getBoundingBox().getMinY() + tiled_map->getTileSize().height));
 
 	this->addChild(tiled_map, 0);
+}
+
+void MyShopRPG::tempSetupSprite()
+{
+	sprite = GameSprite::gameSpriteWithFile("man-se.png");
+	sprite->setScale(.2f);
+	this->addChild(sprite);
 }
