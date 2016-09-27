@@ -2,6 +2,8 @@
 #include "GlobalVariables.h"
 #include "SimpleAudioEngine.h"
 
+
+
 USING_NS_CC;
 
 Scene* MyShopRPG::createScene()
@@ -18,6 +20,7 @@ bool MyShopRPG::init()
 	{
 		return false;
 	}
+	is_dragged = false;
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -32,34 +35,41 @@ bool MyShopRPG::init()
 
 bool MyShopRPG::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event * _event)
 {
-	sprite->setPosition(touch->getLocation());
+	first_touch = touch->getLocation();
+
+	sprite->setPosition(convertToNodeSpace(touch->getLocation()));
 	return true;
 }
 
 void MyShopRPG::onTouchEnded(cocos2d::Touch* _touch, cocos2d::Event* _event)
 {
+	is_dragged = false;
 }
 
 void MyShopRPG::onTouchMoved(cocos2d::Touch* _touch, cocos2d::Event * _event)
 {
+	last_drag_touch = first_touch - _touch->getLocation();
+	is_dragged = true;
 }
 
 void MyShopRPG::onTouchCancelled(cocos2d::Touch* _touch, cocos2d::Event* _event)
 {
+	is_dragged = false;
 }
 
 void MyShopRPG::update(float dt)
 {
-	//CCLOG("Delta time: %f", dt);
-	auto cam = Camera::getDefaultCamera();
-	cam->setPosition(sprite->getPosition());
-	
+	if (is_dragged) 
+	{
+		map->setPositionX(map->getPositionX() - (last_drag_touch.x * dt));
+		map->setPositionY(map->getPositionY() - (last_drag_touch.y * dt));
+	}
 }
 
 void MyShopRPG::initTouch()
 {
 	auto touch_listener = EventListenerTouchOneByOne::create();
-	touch_listener->setSwallowTouches(true);
+	//touch_listener->setSwallowTouches(true);
 
 	touch_listener->onTouchBegan = CC_CALLBACK_2(MyShopRPG::onTouchBegan, this);
 	touch_listener->onTouchEnded = CC_CALLBACK_2(MyShopRPG::onTouchEnded, this);
@@ -71,27 +81,13 @@ void MyShopRPG::initTouch()
 
 void MyShopRPG::initTiled()
 {
-	CCTMXTiledMap* tiled_map = CCTMXTiledMap::create("Map/MyShopSpace.tmx");
-	CCTMXLayer* ground = tiled_map->layerNamed("Ground");
-	CCTMXLayer* floor = tiled_map->layerNamed("Floor");
-	CCTMXLayer* lower_wall = tiled_map->layerNamed("LowerWall");
-	CCTMXLayer* higher_wall = tiled_map->layerNamed("HigherWall");
-	CCTMXLayer* game_items = tiled_map->layerNamed("GameItems");
-
-	floor->setPositionX(floor->getPositionX() - 3);
-	floor->setPositionY(floor->getPositionY() - 29);
-	//CCTMXObjectGroup* object_group = tiled_map->objectGroupNamed("GameObjects");
-	//auto start_point = object_group->getObject("StartPoint");
-
-	tiled_map->setPositionX(tiled_map->getPositionX() - (tiled_map->getBoundingBox().getMidX() - tiled_map->getTileSize().width));
-	tiled_map->setPositionY(tiled_map->getPositionY() - (tiled_map->getBoundingBox().getMinY() + tiled_map->getTileSize().height));
-
-	this->addChild(tiled_map, 0);
+	map = GameMap::createMap("Map/MyShopSpace.tmx"); //4 bytes
+	map->initLayers(3, 29);
+	this->addChild(map, 0);
 }
 
 void MyShopRPG::tempSetupSprite()
 {
 	sprite = GameSprite::gameSpriteWithFile("man-se.png");
-	sprite->setScale(.2f);
-	this->addChild(sprite);
+	this->addChild(sprite,1);
 }

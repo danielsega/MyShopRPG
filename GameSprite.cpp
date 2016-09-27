@@ -25,7 +25,7 @@ GameSprite * GameSprite::gameSpriteWithFile(const char * file_name)
 	}
 
 	CC_SAFE_DELETE(sprite);
-	return NULL;
+	return nullptr;
 }
 
 void GameSprite::setPosition(const CCPoint& pos)

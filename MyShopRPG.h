@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "GameSprite.h"
+#include "GameMap.h"
 
 class MyShopRPG : public cocos2d::Layer
 {
@@ -24,7 +25,13 @@ public:
 
 	CREATE_FUNC(MyShopRPG);
 private:
+	bool is_dragged;
+
+	Vec2 first_touch;
+	Vec2 last_drag_touch;
+
 	GameSprite* sprite;
+	GameMap* map;
 };
 
 #endif // __MY_SHOP_RPG_H__
