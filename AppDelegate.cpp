@@ -51,7 +51,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
 #ifndef NDEBUG
-    // turn on display FPS
+    // turn on display FPS if on Debug
     director->setDisplayStats(true);
 #endif
 

@@ -5,28 +5,27 @@
 
 using namespace cocos2d;
 
-class GameMap : public CCTMXTiledMap
+class GameMap : public TMXTiledMap
 {
 public:
 	static GameMap* createMap(const std::string& tmxFile);
 	void initLayers(int offset_x = 0, int offset_y = 0);
 
-	CCTMXLayer* getGround();
-	CCTMXLayer* getFloor();
-	CCTMXLayer* getLowerWall();
-	CCTMXLayer* getHigherWall();
-	CCTMXLayer* getGameItems();
-
-	CCTMXObjectGroup* getObjGroup();
+	TMXLayer* getGround();
+	TMXLayer* getFloor();
+	TMXLayer* getLowerWall();
+	TMXLayer* getHigherWall();
+	TMXLayer* getAppliances();
+	TMXObjectGroup* getObjGroup();
 
 private:
-	CCTMXLayer* ground;
-	CCTMXLayer* floors;
-	CCTMXLayer* lower_wall;
-	CCTMXLayer* higher_wall;
-	CCTMXLayer* game_items;
+	TMXLayer* ground;
+	TMXLayer* floors;
+	TMXLayer* lower_wall;
+	TMXLayer* higher_wall;
+	TMXLayer* appliances;
 
-	CCTMXObjectGroup* object_group;
+	TMXObjectGroup* object_group;
 };
 
 #endif

@@ -4,8 +4,9 @@
 #include "cocos2d.h"
 #include "GameSprite.h"
 #include "GameMap.h"
+#include "Shop.h"
 
-class MyShopRPG : public cocos2d::Layer
+class MyShopRPG : public cocos2d::Layer, Shop
 {
 private:
 	void update(float dt);
@@ -13,6 +14,7 @@ private:
 	void initTiled();
 
 	void tempSetupSprite();
+	void debugDrawLine();
 public:
 	static cocos2d::Scene* createScene();
 

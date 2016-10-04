@@ -21,9 +21,9 @@ void GameMap::initLayers(int offset_x, int offset_y)
 	floors = this->layerNamed("Floor");
 	lower_wall = this->layerNamed("LowerWall");
 	higher_wall = this->layerNamed("HigherWall");
-	game_items = this->layerNamed("GameItems");
+	appliances = this->layerNamed("Appliances");
 
-	//Get 
+	//Get
 	object_group = this->objectGroupNamed("GameObjects");
 
 	//Move to Offset
@@ -71,11 +71,11 @@ CCTMXLayer * GameMap::getHigherWall()
 	return nullptr;
 }
 
-CCTMXLayer * GameMap::getGameItems()
+CCTMXLayer * GameMap::getAppliances()
 {
-	if (game_items != nullptr)
+	if (appliances != nullptr)
 	{
-		return game_items;
+		return appliances;
 	}
 
 	return nullptr;
